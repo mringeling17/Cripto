@@ -1,0 +1,12 @@
+T1:
+    ping 192.168.1.1
+T2: 
+    sudo python l1/caesar.py "message" 192.168.1.1 9
+    sudo python l1/stealth.py "message" 192.168.1.1 9
+T3:
+    sudo python l1/mitm.py
+T4: 
+    sudo tcpdump -i eth0 icmp -w ./l1/capture.pcap
+
+Hacer en el orden que sea necesario
+Para terminar la captura ctrl+c, despues abrir en wireshark

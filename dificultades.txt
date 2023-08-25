@@ -1,0 +1,15 @@
+1-. El primer approach de chatgpt para el envio del ping con algoritmo de cifrado Cesar fue enviar el ping desde la linea de comando con OS, lo que dificulto el sniff con el algoritmo de MitM
+    Para solucionar esto, se cambio a enviar el ping desde la funcion correspondiente de la libreria Scapy (Opcion dada por chatgpt al indicarle el problema de captura de paquetes)
+2-. En un inicio, no se le indico de forma correcta a chatgpt las caracteristicas del entorno de desarrollo que se estaba utilizando, por lo que asumio que era alguna distro basada en Linux
+    Esto dificulto el uso de algunas librerias y funciones, ya que estaba realizandose en un contenedor de desarrollo de Docker
+    Al indicarle los problemas y mostrarle la configuracion del entorno de desarrollo, este indico algunos posibles cambios para el contenedor, lo que soluciono el problema
+3-. En un comienzo, al realizar el decifrado con MitM, el codigo no realizaba lo solicitado, y al intentar solucionarlo con el chat,este comenzaba a dar mas vueltas de las necesarias, aumentando la complejidad
+    del codigo y su workflow de forma innecesaria
+    Para solucionar esto, se abrio una nueva conversacion y se le indico el contexto completo, dando una solucion semi-funcional
+4-. La solucion semifuncional del punto anterior debio mejorarse, ya que en un comienzo arrojaba error al decodificar cada payload, esto dado que el codigo para el codigo 2 de stealth, hecho inicialmente 
+    con la linea de comandos (1*) no modificaba el tamano del payload, lo que por consecuencia repetia el caracter para completar el tamano por defecto. Primero se intento un alcance de solucion despues de
+    haber capturado el paquete, lo que dio mas problemas, por lo que se decidio por hacer el cambio del problema 1.
+    Una de las opciones de solucion del problema anterior fue agregar una funcion que eliminara payloads duplicados al capturarlos, lo que al intentar decodificar daba un mensaje incompleto, ya que si en 
+    un codigo se repetia una letra, se dejaba solo una. 
+5-. Al tener el ambiente de desarrollo dockerizado, se acomplejo la captura de paquetes a travez de wireshark para su analisis
+    Chatgpt no parecia dar una solucion simple para utilizar wireshark, se comenzo usando TCPDUMP pero al no estar tan familiarizado se buscaron alternativas como usar docker compose para tner mas control de la red
