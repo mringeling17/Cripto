@@ -29,8 +29,7 @@ def extraer_mensaje_cifrado(pcap_file):
     packets = rdpcap(pcap_file)
     mensaje_cifrado = ""
     for packet in packets:
-        if packet.haslayer(ICMP) and packet[ICMP].type == 8:  # ICMP Echo Request
-            # Asumimos que el carácter cifrado está en el noveno byte del payload
+        if packet.haslayer(ICMP) and packet[ICMP].type == 8:
             mensaje_cifrado += chr(packet[ICMP].load[8])
     return mensaje_cifrado
 
@@ -49,19 +48,20 @@ if __name__ == '__main__':
     pcap_file = sys.argv[1]
     mensaje_cifrado = extraer_mensaje_cifrado(pcap_file)
     
-    max_puntaje = 0
+    max_puntaje = -1
     mensaje_probablemente_original = ""
 
-    for corrimiento in range(26):
+    for corrimiento in range(1, 26):
         mensaje_descifrado = descifrado_cesar(mensaje_cifrado, corrimiento)
         puntaje_actual = calcular_puntaje(mensaje_descifrado)
         
         if puntaje_actual > max_puntaje:
             max_puntaje = puntaje_actual
             mensaje_probablemente_original = mensaje_descifrado
-        
-        # Imprime el mensaje descifrado
+
+    for corrimiento in range(26):    
+        mensaje_descifrado = descifrado_cesar(mensaje_cifrado, corrimiento)
         if mensaje_descifrado == mensaje_probablemente_original:
-            print(f"\033[92mCorrimiento {corrimiento}: {mensaje_descifrado}\033[0m")  # 92m es el código ANSI para texto verde
+            print(f"\033[92m{corrimiento}: {mensaje_descifrado}\033[0m")
         else:
-            print(f"Corrimiento {corrimiento}: {mensaje_descifrado}")
+            print(f"{corrimiento}: {mensaje_descifrado}")
