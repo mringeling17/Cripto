@@ -1,2 +1,0 @@
-Cambiar stealth para que el payload no sea unicamente la letra, sino que tenga la estructura de un ping normal con la letra agregada
-En mitm que el mensaje mas probable salga en verde
